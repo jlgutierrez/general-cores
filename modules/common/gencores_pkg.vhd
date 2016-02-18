@@ -478,7 +478,8 @@ package gencores_pkg is
     signal pre_grant : in  std_logic_vector;
     signal grant     : out std_logic_vector);
   function f_onehot_decode(x : std_logic_vector; size : integer) return std_logic_vector;
-
+  function f_onehot_encode(x : std_logic_vector) return std_logic_vector;
+  
   function f_big_ripple(a, b : std_logic_vector; c : std_logic) return std_logic_vector;
   function f_gray_encode(x   : std_logic_vector) return std_logic_vector;
   function f_gray_decode(x   : std_logic_vector; step : natural) return std_logic_vector;
@@ -536,6 +537,14 @@ package body gencores_pkg is
     end loop;  -- i
     return std_logic_vector(to_unsigned(0, size));
   end f_onehot_decode;
+  
+  function f_onehot_encode(x : std_logic_vector) return std_logic_vector is
+    variable tmp : std_logic_vector(2**x'length-1 downto 0);
+  begin
+    tmp                          := (others => '0');
+    tmp(to_integer(unsigned(x))) := '1';
+    return tmp;
+  end function f_onehot_encode;
 
 
 
